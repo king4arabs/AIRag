@@ -6,4 +6,4 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome in AI Rag Accountant"}
+    return {"message": "Welcome in AIRag Accountant"}
