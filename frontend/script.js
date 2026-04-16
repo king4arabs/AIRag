@@ -79,18 +79,7 @@ chatForm.addEventListener("submit", async (e) => {
             throw new Error(data.detail || "Query failed");
         }
 
-        let answerHtml = `<p>${escapeHtml(data.answer)}</p>`;
-        if (data.sources && data.sources.length > 0) {
-            const sourceSnippets = data.sources
-                .filter((s) => s.text)
-                .slice(0, 3)
-                .map((s) => escapeHtml(s.text.slice(0, 100)))
-                .join(" | ");
-            if (sourceSnippets) {
-                answerHtml += `<div class="sources">Sources: ${sourceSnippets}…</div>`;
-            }
-        }
-        addMessage(answerHtml, "assistant", true);
+        addMessageWithSources(data.answer, data.sources);
     } catch (err) {
         addMessage(`Error: ${err.message}`, "assistant");
     }
@@ -115,14 +104,35 @@ clearBtn.addEventListener("click", async () => {
 // Helpers
 // ------------------------------------------------------------------
 
-function addMessage(content, role, isHtml = false) {
+function addMessage(content, role) {
     const div = document.createElement("div");
     div.className = `message ${role}`;
-    if (isHtml) {
-        div.innerHTML = content;
-    } else {
-        div.textContent = content;
+    div.textContent = content;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addMessageWithSources(answerText, sources) {
+    const div = document.createElement("div");
+    div.className = "message assistant";
+
+    const p = document.createElement("p");
+    p.textContent = answerText;
+    div.appendChild(p);
+
+    if (sources && sources.length > 0) {
+        const snippets = sources
+            .filter((s) => s.text)
+            .slice(0, 3)
+            .map((s) => s.text.slice(0, 100));
+        if (snippets.length > 0) {
+            const srcDiv = document.createElement("div");
+            srcDiv.className = "sources";
+            srcDiv.textContent = "Sources: " + snippets.join(" | ") + "…";
+            div.appendChild(srcDiv);
+        }
     }
+
     chatMessages.appendChild(div);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -131,12 +141,6 @@ function showStatus(text, type) {
     uploadStatus.textContent = text;
     uploadStatus.className = `status ${type}`;
     uploadStatus.hidden = false;
-}
-
-function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.appendChild(document.createTextNode(text));
-    return div.innerHTML;
 }
 
 async function refreshHealth() {

@@ -127,7 +127,6 @@ class RAGPipeline:
             if current_len + sentence_len > chunk_size and current_chunk:
                 chunks.append(" ".join(current_chunk))
                 # Keep overlap
-                overlap_text = " ".join(current_chunk)
                 overlap_sentences: list[str] = []
                 overlap_len = 0
                 for s in reversed(current_chunk):
