@@ -1,1 +1,58 @@
-<!-- HTML content here -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIRag – Financial Document Analysis</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>AIRag</h1>
+        <p class="subtitle">AI-Powered Financial Document Analysis</p>
+    </header>
+
+    <main>
+        <!-- Upload Section -->
+        <section id="upload-section" class="card">
+            <h2>Upload Document</h2>
+            <p>Upload a CSV or text file to start analyzing your financial data.</p>
+            <form id="upload-form">
+                <div class="file-input-wrapper">
+                    <input type="file" id="file-input" accept=".csv,.txt,.text" />
+                    <label for="file-input" class="file-label">Choose File</label>
+                    <span id="file-name" class="file-name">No file selected</span>
+                </div>
+                <button type="submit" id="upload-btn" disabled>Upload &amp; Ingest</button>
+            </form>
+            <div id="upload-status" class="status" hidden></div>
+        </section>
+
+        <!-- Chat Section -->
+        <section id="chat-section" class="card">
+            <h2>Ask a Question</h2>
+            <div id="chat-messages" class="chat-messages">
+                <div class="message assistant">
+                    <p>Hello! Upload a financial document and then ask me questions about it.</p>
+                </div>
+            </div>
+            <form id="chat-form">
+                <input type="text" id="question-input" placeholder="Ask about your financial data…" autocomplete="off" />
+                <button type="submit" id="ask-btn">Ask</button>
+            </form>
+        </section>
+
+        <!-- Info Bar -->
+        <section id="info-section" class="card info-bar">
+            <span id="doc-count">Documents: 0 chunks</span>
+            <button id="clear-btn" class="danger-btn">Clear All Documents</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 AIRag. Built with FastAPI &amp; OpenAI.</p>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
